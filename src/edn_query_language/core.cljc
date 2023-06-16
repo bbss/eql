@@ -1,13 +1,16 @@
 (ns edn-query-language.core
   (:refer-clojure :exclude [ident?])
-  (:require [clojure.spec.alpha :as s]))
+  #?(:cljd (:require)
+     :clj (:require [clojure.spec.alpha :as s])
+     :cljs (:require [clojure.spec.alpha :as s])))
 
 (def ^:dynamic *shallow-conversion*
   "Dynamic var.  When bound to true in the current thread, calls to query->ast will not go past the
   first level of children.  This is useful when you just want the AST for one layer of a query."
   false)
 
-#?(:clj  (def INCLUDE_SPECS true)
+#?(:cljd (def INCLUDE_SPECS false)
+   :clj  (def INCLUDE_SPECS true)
    :cljs (goog-define INCLUDE_SPECS true))
 
 (when INCLUDE_SPECS
